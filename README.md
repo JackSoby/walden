@@ -1,6 +1,6 @@
 # Walden
 
-This app is built on top of Phoenix/Elixir with a Postgres DB
+This app is built on top of Phoenix/Elixir with a Postgres DB.
 
 To Install Pheonix/Elixir follow this guide:
 
