@@ -20,4 +20,5 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 I have created a demo app for allocating items into LPD categories
 
 
-![Screenshot](Screenshot 2023-12-11 at 11.44.04 AM.png)
+
+![alt text]([http://url/to/img.png](https://snapshot-admin.s3.amazonaws.com/small-albums/small+folder/Screenshot+2023-12-11+at+11.44.04+AM.png)https://snapshot-admin.s3.amazonaws.com/small-albums/small+folder/Screenshot+2023-12-11+at+11.44.04+AM.png)
