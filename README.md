@@ -19,7 +19,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 I have created a demo app for allocating items into LPD categories.
 
-As you can see below, I have put sorted the items into three tabbed tables. One for Loss, one for process, one for donation. Each Item can be edited or deleted.
+As you can see below, I have put sorted the items into three tabbed tables. One for Loss, one for Process, one for Donation. Each Item can be edited or deleted.
 
 <img src="assets/Screenshot 2023-12-11 at 11.44.04 AM.png" title="hover text">
 
@@ -29,7 +29,7 @@ You can toggle between the different statuses by selecting different tabs at the
 
 ### Manually Add Item
 
-If an Stock Item has a broken/unscannabled barecode, it may be added manually by clicking the `Add` button in the top left which will pop up a modal for creating a new stock item. 
+If an Stock Item has a broken/unscannabled barcode, it may be added manually by clicking the `Add` button in the top left which will pop up a modal for creating a new stock item. 
 
 <img src="assets/Screenshot 2023-12-11 at 11.55.03 AM.png" title="hover text">
 
@@ -62,9 +62,11 @@ curl --location --request POST 'http://localhost:4000/scan?weight=1.4'
 <img src="assets/Screenshot 2023-12-11 at 11.57.38 AM.png" title="hover text">
 
 ### Messaging
-When a create, update, or delete action happens, the system will always a return a sucess or failure message.
-
+When a create, update, or delete action happens, the system will always a return a success or failure message.
+#### Error
 <img src="assets/Screenshot 2023-12-11 at 12.27.16 PM.png" title="hover text">
+
+#### Success
 <img src="assets/Screenshot 2023-12-11 at 12.22.39 PM.png" title="hover text">
 
 ### Feature Files 
