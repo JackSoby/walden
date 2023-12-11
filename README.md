@@ -20,3 +20,4 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 I have created a demo app for allocating items into LPD categories
 
 
+![Screenshot](Screenshot 2023-12-11 at 11.44.04 AM.png)
