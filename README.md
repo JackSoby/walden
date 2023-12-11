@@ -23,13 +23,13 @@ As you can see below, I have put sorted the items into three tabbed tables. One 
 
 <img src="assets/Screenshot 2023-12-11 at 11.44.04 AM.png" title="hover text">
 
-You can toggle between the different status by selecting different tabs at the top of the screen
+You can toggle between the different statuses by selecting different tabs at the top of the screen
 
 <img src="assets/Screenshot 2023-12-11 at 12.13.15 PM.png" title="hover text">
 
 ### Manually Add Item
 
-If an Stock Item has a broken/unscannabled barecode, it be added manually by clicking the `Add` button in the top left which will pop up a modal for creating a new stock item. 
+If an Stock Item has a broken/unscannabled barecode, it may be added manually by clicking the `Add` button in the top left which will pop up a modal for creating a new stock item. 
 
 <img src="assets/Screenshot 2023-12-11 at 11.55.03 AM.png" title="hover text">
 
@@ -66,6 +66,30 @@ When a create, update, or delete action happens, the system will always a return
 
 <img src="assets/Screenshot 2023-12-11 at 12.27.16 PM.png" title="hover text">
 <img src="assets/Screenshot 2023-12-11 at 12.22.39 PM.png" title="hover text">
+
+### Feature Files 
+
+#### View Files
+
+```
+lib/walden_web/controllers/inventory_html/index.html.heex
+assets/js/app.js
+assets/js/stock_socket.js
+```
+
+#### Controller Files
+
+```
+lib/walden_web/router.ex
+lib/walden_web/controllers/inventory_controller.ex
+lib/walden/inventory.ex
+```
+#### Model Files
+
+```
+lib/walden/inventory/stock.ex
+priv/repo/migrations/20231206151329_create_stocks.exs
+```
 
 ### Overview
 Here is a high level view of the system.
