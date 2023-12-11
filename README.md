@@ -1,5 +1,11 @@
 # Walden
 
+This app is built on top of Pheonix/Elixir with a Postgres DB
+
+To Install Pheonix/Elixir follow this guide:
+
+https://hexdocs.pm/phoenix/installation.html
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
@@ -9,10 +15,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-## Learn more
+## LPD
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+I have created a demo app for allocating items into LPD categories
+
+
