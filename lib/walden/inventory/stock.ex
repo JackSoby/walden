@@ -13,5 +13,6 @@ defmodule Walden.Inventory.Stock do
   def changeset(stock, attrs) do
     stock
     |> cast(attrs, [:weight, :status])
+    |> validate_required([:weight])
   end
 end
