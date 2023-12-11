@@ -4,7 +4,7 @@
     Barcode added
 </div>
 
-<div class="container mx-auto mb-4">
+<div class="container mx-auto mb-4 pt-8">
     <button id="openModalButton" class="p-2 bg-green-500 text-white rounded">Add</button>
 </div>
 
@@ -16,7 +16,7 @@
         <form action="/create" method="POST" class="flex flex-col items-center">
             <div class="mb-4">
                 <label for="weight">Weight:</label>
-                <input type="number" id="weight" name="weight" required="true" class="p-2 border rounded" />
+                <input type="number" step="0.01" id="weight" name="weight" required="true" class="p-2 border rounded" />
             </div>
             <div class="mb-4">
                 <label for="status">Status:</label>
@@ -35,6 +35,46 @@
 <div class="text-3xl font-bold mb-4 text-center">Loss, Process, Donation Data</div>
 
 <h4 class="text-2xl font-bold mb-4 text-center">Total: <%= @stockLength %></h4>
+
+
+<div id="new-stock-list" class={@emptyTableClass}>
+    <div>
+        <h4 class="text-2xl font-bold mb-4 text-left">Please Update the below data</h4>
+    </div>
+    <%= for empty <- @empty do %>
+        <form action="/edit" method="POST" id={"my-form#{empty.id}"} class="flex flex-col items-center">
+        </form>
+    <% end %>
+
+    <table id="newStockTable" class="min-w-full border bg-red-200">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b text-left">Weight</th>
+                <th class="py-2 px-4 border-b text-left">Status</th>
+                <th class="py-2 px-4 border-b text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="empty-stock-tbody">
+            <%= for empty <- @empty do %>
+                <tr>
+                    <td class="pl-4">
+                        <input form={"my-form#{empty.id}"} type="number" step="0.01" name="weight" required="true" value={empty.weight} class="p-2 border rounded" />
+                    </td>
+                    <input form={"my-form#{empty.id}"} type="hidden" name="id" value={empty.id} />
+                    <td class="py-2 px-4 border-b">
+                        <select form={"my-form#{empty.id}"} required="true" id="status" name="status" class="border rounded">
+                            <option value="L">L</option>
+                            <option value="P">P</option>
+                            <option value="D">D</option>
+                        </select>
+                    </td>
+                    <td  class="py-2 px-4 border-b"><input type="Submit" form={"my-form#{empty.id}"} class="p-2 bg-blue-500 text-white rounded"/></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+
 
 <div class="container mx-auto">
     <ul class="flex">
@@ -55,6 +95,7 @@
                 <tr>
                     <th class="py-2 px-4 border-b text-left">Weight</th>
                     <th class="py-2 px-4 border-b text-left">Status</th>
+                    <th class="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,7 +103,50 @@
                         <tr>
                             <td class="py-2 px-4 border-b"><%= loss.weight %></td>
                             <td class="py-2 px-4 border-b"><%= loss.status %></td>
+                            <td class="modal-buttons py-2 px-4 border-b cursor-pointer">
+                                <button id={"#{loss.id}"} class="edit-modal-button py-2 px-4 border-b cursor-pointer bg-blue-500 rounded text-white">Edit</button>
+                                <button id={"#{loss.id}-delete"} class="delete-modal-button py-2 px-4 border-b cursor-pointer bg-blue-500 rounded text-white">Delete</button>
+                            </td>
                         </tr>
+
+
+                        <div id={"my-edit-modal-#{loss.id}"} class="edit-modal modal hidden fixed inset-0 bg-gray-50 bg-opacity-75 overflow-y-auto">
+                            <div class="modal-content bg-white mx-auto my-8 p-8 w-96 rounded shadow-lg">
+                                <span id={"close-modal-#{loss.id}"} class="absolute top-0 right-0 p-4 cursor-pointer text-lg">&times;</span>
+
+                                <form action="/edit" method="POST" class="flex flex-col items-center">
+                                    <input type="hidden" name="id" value={loss.id} />
+
+                                    <div class="mb-4">
+                                        <label for="weight">Weight:</label>
+                                        <input type="number" step="0.01" id="weight" value={loss.weight}    name="weight" required="true" class="p-2 border rounded" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="status">Status:</label>
+                                        <select required="true" id="status" name="status" selected={loss.status} class="border rounded">
+                                            <option value="L">L</option>
+                                            <option value="P">P</option>
+                                            <option value="D">D</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="p-2 bg-blue-500 text-white rounded">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div id={"my-delete-modal-#{loss.id}"} class="delete-modal modal hidden fixed inset-0 bg-gray-50 bg-opacity-75 overflow-y-auto">
+                            <div class="modal-content bg-white mx-auto my-8 p-8 w-96 rounded shadow-lg">
+                                <span id={"close-delete-modal-#{loss.id}"} class="absolute top-0 right-0 p-4 cursor-pointer text-lg">&times;</span>
+
+                                <form action="/delete" method="POST" class="flex flex-col items-center">
+                                    <h2 class="pb-2">Would you like to delete the current item?</h2>
+                                    <input type="hidden" name="id" value={loss.id} />
+
+                                    <button type="submit" class="p-2 bg-red-500 text-white rounded">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     <% end %>
             </tbody>
         </table>
@@ -74,6 +158,7 @@
                 <tr>
                     <th class="py-2 px-4 border-b text-left">Weight</th>
                     <th class="py-2 px-4 border-b text-left">Status</th>
+                    <th class="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,7 +166,52 @@
                         <tr>
                             <td class="py-2 px-4 border-b"><%= process.weight %></td>
                             <td class="py-2 px-4 border-b"><%= process.status %></td>
+                            <td class="modal-buttons py-2 px-4 border-b cursor-pointer">
+                                <button id={"#{process.id}"} class="edit-modal-button py-2 px-4 border-b cursor-pointer bg-blue-500 rounded text-white">Edit</button>
+                                <button id={"#{process.id}-delete"} class="delete-modal-button py-2 px-4 border-b cursor-pointer bg-blue-500 rounded text-white">Delete</button>
+                            </td>
                         </tr>
+
+
+
+                        <div id={"my-edit-modal-#{process.id}"} class="edit-modal modal hidden fixed inset-0 bg-gray-50 bg-opacity-75 overflow-y-auto">
+                            <div class="modal-content bg-white mx-auto my-8 p-8 w-96 rounded shadow-lg">
+                                <span id={"close-modal-#{process.id}"} class="absolute top-0 right-0 p-4 cursor-pointer text-lg">&times;</span>
+
+                                <form action="/edit" method="POST" class="flex flex-col items-center">
+                                    <input type="hidden" name="id" value={process.id} />
+
+                                    <div class="mb-4">
+                                        <label for="weight">Weight:</label>
+                                        <input type="number" step="0.01" id="weight" value={process.weight}    name="weight" required="true" class="p-2 border rounded" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="status">Status:</label>
+                                        <select required="true" id="status" name="status" selected={process.status} class="border rounded">
+                                            <option value="L">L</option>
+                                            <option value="P" selected>P</option>
+                                            <option value="D">D</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="p-2 bg-blue-500 text-white rounded">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                        <div id={"my-delete-modal-#{process.id}"} class="delete-modal modal hidden fixed inset-0 bg-gray-50 bg-opacity-75 overflow-y-auto">
+                            <div class="modal-content bg-white mx-auto my-8 p-8 w-96 rounded shadow-lg">
+                                <span id={"close-delete-modal-#{process.id}"} class="absolute top-0 right-0 p-4 cursor-pointer text-lg">&times;</span>
+
+                                <form action="/delete" method="POST" class="flex flex-col items-center">
+                                    <h2 class="pb-2">Would you like to delete the current item?</h2>
+                                    <input type="hidden" name="id" value={process.id} />
+
+                                    <button type="submit" class="p-2 bg-red-500 text-white rounded">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     <% end %>
             </tbody>
         </table>
@@ -93,6 +223,7 @@
                 <tr>
                     <th class="py-2 px-4 border-b text-left">Weight</th>
                     <th class="py-2 px-4 border-b text-left">Status</th>
+                    <th class="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,7 +231,49 @@
                         <tr>
                             <td class="py-2 px-4 border-b"><%= donation.weight %></td>
                             <td class="py-2 px-4 border-b"><%= donation.status %></td>
+                            <td class="modal-buttons py-2 px-4 border-b cursor-pointer">
+                                <button id={"#{donation.id}"} class="edit-modal-button py-2 px-4 border-b cursor-pointer bg-blue-500 rounded text-white">Edit</button>
+                                <button id={"#{donation.id}-delete"} class="delete-modal-button py-2 px-4 border-b cursor-pointer bg-blue-500 rounded text-white">Delete</button>
+                            </td>
                         </tr>
+
+                        <div id={"my-edit-modal-#{donation.id}"} class="edit-modal modal hidden fixed inset-0 bg-gray-50 bg-opacity-75 overflow-y-auto">
+                            <div class="modal-content bg-white mx-auto my-8 p-8 w-96 rounded shadow-lg">
+                                <span id={"close-modal-#{donation.id}"} class="absolute top-0 right-0 p-4 cursor-pointer text-lg">&times;</span>
+
+                                <form action="/edit" method="POST" class="flex flex-col items-center">
+                                    <input type="hidden" name="id" value={donation.id} />
+
+                                    <div class="mb-4">
+                                        <label for="weight">Weight:</label>
+                                        <input type="number" step="0.01" id="weight" value={donation.weight} name="weight" required="true" class="p-2 border rounded" />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="status">Status:</label>
+                                        <select required="true" id="status" name="status" selected={donation.status} class="border rounded">
+                                            <option value="L">L</option>
+                                            <option value="P">P</option>
+                                            <option value="D" selected>D</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="p-2 bg-blue-500 text-white rounded">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div id={"my-delete-modal-#{donation.id}"} class="delete-modal modal hidden fixed inset-0 bg-gray-50 bg-opacity-75 overflow-y-auto">
+                            <div class="modal-content bg-white mx-auto my-8 p-8 w-96 rounded shadow-lg">
+                                <span id={"close-delete-modal-#{donation.id}"} class="absolute top-0 right-0 p-4 cursor-pointer text-lg">&times;</span>
+
+                                <form action="/delete" method="POST" class="flex flex-col items-center">
+                                    <h2 class="pb-2">Would you like to delete the current item?</h2>
+                                    <input type="hidden" name="id" value={donation.id} />
+
+                                    <button type="submit" class="p-2 bg-red-500 text-white rounded">Delete</button>
+                                </form>
+                            </div>
+                        </div>
                     <% end %>
             </tbody>
         </table>

@@ -21,6 +21,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import "./stock_socket.js"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
@@ -59,7 +60,51 @@ document.addEventListener("DOMContentLoaded", function() {
             modal.classList.add('hidden');
         }
     });
+
+    // let editModals = document.getElementsByClassName("edit-modal")
+    let modalsButtons = document.getElementsByClassName("modal-buttons")
+
+    for (let i = 0; i < modalsButtons.length; i++) {
+        let td = modalsButtons[i]
+
+
+        for (let j = 0; j < td.children.length; j++) {
+            let currentNode = td.children[j]
+            currentNode.addEventListener('click', function() {
+
+                console.log(this.id)
+                if(!this.id.includes("delete")) {
+                    let editModal = document.getElementById(`my-edit-modal-${currentNode.id}`)
+                    let closeEditModalButton = document.getElementById(`close-modal-${currentNode.id}`)
+        
+                    editModal.classList.remove('hidden');
+        
+                    closeEditModalButton.addEventListener('click', function() {
+                        editModal.classList.add('hidden');
+                    });
+                } else {
+
+                    let id = this.id.split("-")[0]
+
+                    let deleteModal = document.getElementById(`my-delete-modal-${id}`)
+                    console.log(deleteModal)
+                    let closeDeletetModalButton = document.getElementById(`close-delete-modal-${id}`)
+        
+                    deleteModal.classList.remove('hidden');
+        
+                    closeDeletetModalButton.addEventListener('click', function() {
+                        deleteModal.classList.add('hidden');
+                    });
+                }
+
+    
+            });
+        }
+    }
 });
+
+
+
 
 
 document.addEventListener("DOMContentLoaded", function() {

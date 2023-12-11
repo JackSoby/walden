@@ -19,7 +19,10 @@ defmodule WaldenWeb.Router do
 
     get "/", InventoryController, :index
     post "/create", InventoryController, :create
+    post "/edit", InventoryController, :edit
+    post "/delete", InventoryController, :delete
 
+    post "/scan", InventoryController, :scan
   end
 
   # Other scopes may use custom stacks.
